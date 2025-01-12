@@ -86,8 +86,30 @@ viewer.infoBox.frame.src = "about:blank";
 // Cesium3DTilesInspector
 //viewer.extend(Cesium.viewerCesium3DTilesInspectorMixin);
 
+// Add the Cesium3DTilesInspector
+//const inspector = new Cesium.Cesium3DTilesInspector('cesiumContainer', viewer.scene);
 
+const handler2 = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
 
+handler2.setInputAction((click) => {
+    const pickedObject = viewer.scene.pick(click.position);
+  
+    if (Cesium.defined(pickedObject) && pickedObject.primitive instanceof Cesium.Cesium3DTileset) {
+      const tileset = pickedObject.primitive; // This is your 3D Tileset
+      const content = pickedObject.content; // Tile content if available
+  
+      console.log('Tileset Info:', tileset);
+      if (content) {
+        console.log('Tile Content:', content);
+        if (content.properties) {
+          console.log('Content Properties:', content.properties);
+        }
+      }
+    } else {
+      console.log('No valid tile or feature selected');
+    }
+  }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+  
 
 //startView and Fly the camera Cologne at the given longitude, latitude, and height.
 const initialPosition = Cesium.Cartesian3.fromDegrees(6.958, 50.928, 600); // Long, Lat, Height
@@ -1143,6 +1165,46 @@ document.getElementById('legendbutton').addEventListener('click', () => {
         }
     });
     */
+//Test to disable certain region of google tileset from showin
+/*   
+// Define your geographic coordinates
+const lati = 50.92324711; // Latitude in degrees
+const longi = 6.99193668; // Longitude in degrees
+const hei = 200; // Height in meters above the ellipsoid (adjust as needed)
+
+// Convert to Cartesian3
+const center = Cesium.Cartesian3.fromDegrees(longi, lati, hei);
+
+// Define the radius of the bounding sphere (in meters)
+const radius = 70.0;
+
+// Create the BoundingSphere
+const excludeRegion = new Cesium.BoundingSphere(center, radius);
+
+GoogletilesetKoeln.tileVisible = function(tile) {
+    // Safeguard: Check if the tile has a boundingVolume
+    if (!tile.boundingVolume || !tile.boundingVolume.boundingVolume) {
+        return true; // Default to rendering if no bounding volume is defined
+    }
+
+    // Retrieve the bounding volume
+    const boundingVolume = tile.boundingVolume.boundingVolume;
+
+    // Check if it's a BoundingSphere
+    if (boundingVolume instanceof Cesium.BoundingSphere) {
+        return !Cesium.BoundingSphere.intersect(excludeRegion, boundingVolume);
+    }
+
+    // Default to rendering the tile for unsupported bounding volume types
+    return true;
+};
+// Optional: Fly to the exclusion area for debugging
+viewer.camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(longi, lati, hei + 500), // Adjust altitude as needed
+});
+
+*/
+
 
 
     //TUV TBau 3D Mesh
@@ -1159,29 +1221,58 @@ treeTileset.style = new Cesium.Cesium3DTileStyle({
 });
 
 
-    //LoD2 Koeln - Styling auch möglich  
-    // von Cesium Ion 
-    const LoD2Koeln = await Cesium.Cesium3DTileset.fromIonAssetId(2663459);
-    viewer.scene.primitives.add(LoD2Koeln);
-   //exclude TBau Buildings
-   /* LoD2Koeln.style = new Cesium.Cesium3DTileStyle({
-        // Replace "building_id" and "excludedId" with your metadata property and value
-        show: "featureId !== 'DENW37AL1000kp1R'"
-      });
-      
+// LoD2 Koeln - Add tileset
+const LoD2Koeln = await Cesium.Cesium3DTileset.fromIonAssetId(2663459);
+viewer.scene.primitives.add(LoD2Koeln);
+
+
+
+LoD2Koeln.style = new Cesium.Cesium3DTileStyle({
+    show: {
+        conditions: [
+            ["${Height} === 21.057363068776468", "false"],
+            ["${Height} === 17.638531342038092", "false"],
+            ["${Height} === 19.71697910877323", "false"],
+            ["${Height} === 8.27511435794878", "false"],
+            ["${Height} === 6.404158458170514", "false"],
+            ["${Height} === 3.1053009679756087", "false"],
+            ["${Height} === 4.7372055708840435", "false"],
+            ["${Height} === 3.6773117411227076", "false"],
+            ["${Height} === 2.6401405746011193", "false"],
+            ["${Height} === 8.559914425509533", "false"],
+            ["${Height} === 3.5555567227366964", "false"],
+            ["${Height} === 2.7300640183191547", "false"],
+            ["${Height} === 42.13942282102829", "false"],
+            ["true", "true"] // Default: Show everything else
+        ]
+    }
+});
+
+ /* viewer.screenSpaceEventHandler.setInputAction(function (movement) {
+    const pickedFeature = viewer.scene.pick(movement.position);
+    if (pickedFeature) {
+        console.log(pickedFeature.getPropertyIds()); // Logs all property names
+        console.log(pickedFeature.getProperty('height')); // Logs the 'gmlid' value
+    }
+}, Cesium.ScreenSpaceEventType.LEFT_CLICK)
+
 */
-      viewer.screenSpaceEventHandler.setInputAction(function (event) {
-        var pickedFeature = viewer.scene.pick(event.position);
-        if (pickedFeature) {
-            console.log('Picked feature _content:', pickedFeature._content);
-            if (pickedFeature._content && pickedFeature._content._metadata) {
-                console.log('Metadata:', pickedFeature._content._metadata);
-            }
-        } else {
-            console.log('No feature picked.');
-        }
-    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
-      
+
+
+
+// Add a polygon to visualize the bounding box (optional for debugging)
+/*viewer.entities.add({
+    polygon: {
+        hierarchy: Cesium.Cartesian3.fromDegreesArray([
+            west, south,
+            east, south,
+            east, north,
+            west, north,
+        ]),
+        material: Cesium.Color.YELLOW.withAlpha(0.5),
+    },
+});
+      */
       const wmsHQ10ImageryProvider = new Cesium.WebMapServiceImageryProvider({
             url : 'https://www.wms.nrw.de/umwelt/HW_Gefahrenkarte?',
             layers : '15',
@@ -1850,6 +1941,22 @@ function fly(position) {
 document.getElementById("locationButton").addEventListener("click", function() {
     navigator.geolocation.getCurrentPosition(fly);
 });
+
+
+//Fly to TUV
+document.getElementById("TUVButton").addEventListener("click", function() {
+    const initialPosition = Cesium.Cartesian3.fromDegrees(6.99193205, 50.91923387, 300); // Long, Lat, Height
+    const initialOrientation = {
+      heading: Cesium.Math.toRadians(0.0),
+      pitch: Cesium.Math.toRadians(-15.0),
+    };
+        viewer.camera.flyTo({
+          destination:initialPosition,
+          orientation: initialOrientation
+        });
+});
+
+
 
 //Measure Function
 var camera = viewer.camera;
