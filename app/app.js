@@ -228,8 +228,8 @@ async function fetchCologneWeather() {
 
         // Add weather icon
         const iconCode = data.weather[0].icon;
-        document.getElementById("weather-icon").src = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
-        document.getElementById("weather-icon2").src = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
+        document.getElementById("weather-icon").src = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+        document.getElementById("weather-icon2").src = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
 
          // Update the weather icon inside the button
          const weatherIcon = document.getElementById("weather-icon2");
