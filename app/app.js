@@ -1,8 +1,3 @@
-
-    
-
-    
-    
     // Your access token can be found at: https://ion.cesium.com/tokens.
     // This is the default access token from your ion account
     
@@ -1211,6 +1206,17 @@ viewer.camera.flyTo({
     const TUVtileset = await Cesium.Cesium3DTileset.fromIonAssetId(2965765);
     viewer.scene.primitives.add(TUVtileset);
         
+// Apply a translation directly to the model matrix
+const translation = Cesium.Matrix4.fromTranslation(
+    new Cesium.Cartesian3(0, 0, -2.5) // Move down by 2.5 Meters
+);
+
+TUVtileset.modelMatrix = Cesium.Matrix4.multiply(
+    TUVtileset.modelMatrix,
+    translation,
+    new Cesium.Matrix4()
+);
+
     
     //Trees
     const treeTileset = await Cesium.Cesium3DTileset.fromIonAssetId(2938772);
@@ -1427,7 +1433,13 @@ HQselten3D_UG.show = false;
                 transparent: true
             }
         });
-        const wmsStarkregenSelten = viewer.imageryLayers.addImageryProvider(wmsStarkregenSeltenImageryProvider);
+       const wmsStarkregenSelten = viewer.imageryLayers.addImageryProvider(wmsStarkregenSeltenImageryProvider);
+       //viewer.imageryLayers.raiseToTop(wmsStarkregenSelten);
+      
+      /* const screenSpaceImagery = viewer.scene.primitives.add(
+        new Cesium.ScreenSpaceImagery({ imageryProvider: wmsStarkregenSeltenImageryProvider })
+    );*/
+
 
         //Starkregen Extrem
       const wmsStarkregenExtremImageryProvider = new Cesium.WebMapServiceImageryProvider({
@@ -2173,4 +2185,3 @@ function removeLabels() {
         verticalLabel = null;
     }
 }
-
