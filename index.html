@@ -5,7 +5,7 @@
 <head>
 
   <meta charset="utf-8">
-  <title>Urban Flooding Analysis Tool Cologne </title>
+  <title>3D Starkregen / Hochwassser Demo Köln </title>
   <!-- Include the CesiumJS JavaScript and CSS files -->
 
   <script src="https://cesium.com/downloads/cesiumjs/releases/1.117/Build/Cesium/Cesium.js"></script>
@@ -29,27 +29,27 @@
       </span>
   </div>
   <div class="weather-item">
-      <span class="label">Temperature:</span>
+      <span class="label">Temperatur:</span>
       <span id="temperature" class="value">Loading...</span>
   </div>
   <div class="weather-item">
-      <span class="label">Rain:</span>
+      <span class="label">Regen:</span>
       <span id="rainValue" class="value">Loading...</span>
   </div>
   <div class="weather-item">
-      <span class="label">Wind Speed:</span>
+      <span class="label">Windgeschwindigkeit:</span>
       <span id="wind-speed" class="value">Loading...</span>
   </div>
   <div class="weather-item">
-      <span class="label">Pressure:</span>
+      <span class="label">Luftdruck:</span>
       <span id="pressure" class="value">Loading...</span>
   </div>
   <div class="weather-item">
-      <span class="label">Humidity:</span>
+      <span class="label">Luftfeuchtigkeit:</span>
       <span id="humidity" class="value">Loading...</span>
   </div>
   <div class="weather-item">
-      <span class="label">Cloud Cover:</span>
+      <span class="label">Wolkendichte:</span>
       <span id="cloud-cover" class="value">Loading...</span>
   </div>
 </div>
@@ -57,7 +57,7 @@
     <div id= "header">
     <i class="fa-solid fa-house-flood-water" style="margin-right: 7px; "></i>
     
-    <span style="margin-left: 0px; margin-right: -5px;"> Urban Flooding Analysis Tool Cologne &nbsp</span> 
+    <span style="margin-left: 0px; margin-right: -5px;"> 3D Starkregen/Hochwassser Demo Köln &nbsp</span> 
     <i class="fa-solid fa-cloud-showers-heavy"></i>
     
     <div class="button-container2">
@@ -65,8 +65,8 @@
         <i class="fa-solid fa-screwdriver-wrench" style="font-size: 20px; position: relative; top: -2px; width: fit-content;"></i>
       </button>
       <button class= "btn" id="layerbutton" title="Layer"><strong>Layer</strong></button>
-    <button class= "btn" id="legendbutton" title="Legende"><strong>Legend</strong></button>
-    <button class= "btn" id="currentWeatherButton" > <img id="weather-icon2" alt="Weather Icon" style="width: 30px; height: 30px;" /><strong style="position: relative;top: -10px; left: 0px; margin-right: 5px; margin-left: -10px">Current Weather</strong></button>
+    <button class= "btn" id="legendbutton" title="Legende"><strong>Legende</strong></button>
+    <button class= "btn" id="currentWeatherButton" > <img id="weather-icon2" alt="Weather Icon" style="width: 30px; height: 30px;" /><strong style="position: relative;top: -10px; left: 0px; margin-right: 5px; margin-left: -10px">Aktuelles Wetter</strong></button>
     
     
   </div>
@@ -78,11 +78,11 @@
     <ul class="RainIntensity" id="RainIntensity">
       <li> 
           <input type="checkbox" id="lightRain" class="smallCheckBox">
-          <label for="lightRain"><strong>Light Rain</strong></label>
+          <label for="lightRain"><strong>Leichter Regen</strong></label>
       </li>
       <li>
           <input type="checkbox" id="heavyRain" class="smallCheckBox">
-          <label for="mediumRain"><strong>Heavy Rain</strong></label>
+          <label for="mediumRain"><strong>Starker Regen</strong></label>
       </li>
     </ul>
     <button class="btn" id="boatButton">
@@ -100,7 +100,7 @@
         <i id="deleteFavorites" title="Alle Favoriten löschen" class="fa fa-trash-o" aria-hidden="true" style="font-size:24px;color:red; position: relative;top: 0px; left: 0px; display: none; margin-right: 2px; margin-left: -1px" ></i>
 
       </button>
-      <button class= "btn" id="counterButton" style="display: none;" ><strong>Favorites: 0</strong></button>
+      <button class= "btn" id="counterButton" style="display: none;" ><strong>Favoriten: 0</strong></button>
       <button class= "btn" id= "drawPolygonButton" > 
         <i class="fa-solid fa-draw-polygon" id="startPolygon" title="Polygon-Zeichnen Modus aktivieren" aria-hidden="true" style="font-size:24px;color:black; position: relative;top: 1px; left: 0px; display: inline-block;margin-right: 5px; margin-left: 5px;"></i>
         <i id ="drawPolygon" title="Polygon Zeichnen" class="fa-solid fa-pencil" style="font-size:20px;color:green; position: relative;top: 0px; left: 0px; display: none;margin-right: 2px; margin-left: 5px;"></i>
@@ -135,7 +135,7 @@
 
 
 
-<input type="text" id="favoriteInput" placeholder="Type Comment">
+<input type="text" id="favoriteInput" placeholder="Kommentar">
 <button id="zweid3dButton">2D/3D</button>
 <button id="locationButton" title="Current Location"><i class="fa-solid fa-location-crosshairs"></i></button>
 
@@ -148,27 +148,27 @@
   </li>
   <li>
     <input type="checkbox" id="FavoritenCheckbox" checked>
-    <label for="FavoritenCheckbox">Favorites</label>
+    <label for="FavoritenCheckbox">Favoriten</label>
   </li>
    <li>
     <input type="checkbox" id="PolygonCheckbox" checked>
-    <label for="PolygonCheckbox">Polygons</label>
+    <label for="PolygonCheckbox">Polygone</label>
   </li>
   <li>
     <input type="checkbox" id="RheinPegelCheckbox" checked>
-    <label for="RheinPegelCheckbox">Rhein River Gauge</label>
+    <label for="RheinPegelCheckbox">Rhein Pegel</label>
   </li>
   <br>
   <li>
-    <strong>Tree Cataster</strong>
+    <strong>Baumkataster</strong>
   </li>
   <li>
     <input type="checkbox" id="TreeCheckBox" checked>
-    <label for="TreeCheckbox">3D Trees</label>
+    <label for="TreeCheckbox">3D Bäume</label>
   </li>
   <br>
   <li>
-    <strong>3D Buildings</strong>
+    <strong>3D Gebäude</strong>
   </li>
   <li>
     <input type="checkbox" id="OSMCheckbox">
@@ -188,19 +188,19 @@
   </li>
   <br>
   <li>
-    <strong> Precipitation</strong>
+    <strong> Niederschlag</strong>
   </li>
   <li>
     <input type="checkbox" id="wmsStarkregenSeltenCheckbox">
-    <label for="wmsStarkregenSeltenCheckbox">WMS Heavy Precipitation HN100</label>
+    <label for="wmsStarkregenSeltenCheckbox">WMS Starkregen HN100</label>
   </li>
   <li>
     <input type="checkbox" id="wmsStarkregenExtremCheckbox">
-    <label for="wmsStarkregenExtremCheckbox">WMS Heavy Precipitation HNExtreme</label>
+    <label for="wmsStarkregenExtremCheckbox">WMS Starkregen HNExtrem</label>
   </li>
   <br>
   <li>
-   <strong> Flood Areas</strong>
+   <strong> Überflutungsgebiete</strong>
   </li>
   <li> <strong>2D</strong></li>
   <li>
@@ -220,20 +220,20 @@
   </li>
       <li>
         <input type="checkbox" id="HochwasserSelten3D">
-        <label for="HochwasserSelten3D">3D HQ100 Flooded Areas</label>
+        <label for="HochwasserSelten3D">3D HQ100 Überflutungsgebiete</label>
       </li>
       <li>
         <input type="checkbox" id="HochwasserSelten3D_UG">
-        <label for="HochwasserSelten3D_UG">3D HQ100 Flood Risk Areas</label>
+        <label for="HochwasserSelten3D_UG">3D HQ100 Überflutungsgefährdete Gebiete</label>
       </li>
       <li>
         <input type="checkbox" id="HochwasserExtrem3D">
-        <label for="HochwasserExtrem3D">3D HQ500 Flooded Areas</label>
+        <label for="HochwasserExtrem3D">3D HQ500 Überflutungsgebiete</label>
       </li>
     
 </ul>
 <div id="legend">
-  <strong>Water Depth</strong> <br> <img id="legendImage" src="img/Wasserhoehe_legende.png" style="width: 200px; align-items: center;" alt="Legend"> 
+  <strong>Wasserhöhen</strong> <br> <img id="legendImage" src="img/Wasserhoehe_legende.png" style="width: 200px; align-items: center;" alt="Legend"> 
  </div>
  
  <!-- Favoriten Confirmation Modal -->
